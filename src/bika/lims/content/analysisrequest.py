@@ -130,6 +130,8 @@ from senaite.core.catalog import WORKSHEET_CATALOG
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import noLongerProvides
+from senaite.app.listing.adapters.samples import TURNAROUNDTIME
+
 
 IMG_SRC_RX = re.compile(r'<img.*?src="(.*?)"')
 IMG_DATA_SRC_RX = re.compile(r'<img.*?src="(data:image/.*?;base64,)(.*?)"')
@@ -865,6 +867,23 @@ schema = BikaSchema.copy() + Schema((
             },
         ),
     ),
+
+    StringField(
+           'Turn-Around Time',
+           default='3',
+           vocabulary=TURNAROUNDTIME,
+           mode='rw',
+           read_permission=View,
+           write_permission=FieldEditPriority,
+           widget=PrioritySelectionWidget(
+               label=_('Turn-Around Time'),
+               format='select',
+               visible={
+                   'add': 'edit',
+               },
+           ),
+       ),
+    
     StringField(
         'EnvironmentalConditions',
         mode="rw",
